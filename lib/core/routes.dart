@@ -7,7 +7,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 
 final routes = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/home/start',
+  initialLocation: '/home/tasks',
   observers: [GoRouterObserver()],
   routes: [
     GoRoute(
@@ -17,6 +17,13 @@ final routes = GoRouter(
           color: Colors.amber,
           child: Column(
             children: [
+              ElevatedButton(
+                onPressed: () => context.push('/home/tasks'),
+                child: const Text(
+                  'GO TO TASKS',
+                ),
+              ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () => context.push('/home/start'),
                 child: const Text(
@@ -46,9 +53,51 @@ final routes = GoRouter(
           child: Column(
             children: [
               ElevatedButton(
+                onPressed: () => context.push('/home/tasks'),
+                child: const Text(
+                  'GO TO TASKS',
+                ),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
                 onPressed: () => context.push('/home/settings'),
                 child: const Text(
                   'GO TO SETTINGS',
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.push('/home/settings');
+                  }
+                },
+                child: const Text('GO BACK'),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/home/tasks',
+      builder: (context, state) {
+        return Container(
+          color: Colors.green,
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () => context.push('/home/settings'),
+                child: const Text(
+                  'GO TO SETTINGS',
+                ),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () => context.push('/home/settings'),
+                child: const Text(
+                  'GO TO START',
                 ),
               ),
               TextButton(
