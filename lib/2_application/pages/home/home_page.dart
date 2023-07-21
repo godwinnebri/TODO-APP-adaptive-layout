@@ -5,6 +5,7 @@ import 'package:todo_app/2_application/pages/dashboard/dashboard_page.dart';
 import 'package:todo_app/2_application/pages/overview/overview_page.dart';
 import 'package:todo_app/2_application/pages/settings/settings_page.dart';
 import 'package:todo_app/2_application/pages/tasks/tasks_page.dart';
+import 'package:todo_app/core/page_config.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -18,8 +19,12 @@ class HomePage extends StatefulWidget {
     DashboardPage.pageConfig,
     OverviewPage.pageConfig,
     TasksPage.pageConfig,
-    //SettingsPage.pageConfig,
   ];
+
+  static const pageConfig = PageConfig(
+    icon: Icons.home_rounded,
+    name: 'home',
+  );
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -44,6 +49,11 @@ class _HomePageState extends State<HomePage> {
               Breakpoints.mediumAndUp: SlotLayout.from(
                 key: const Key('primary-navigation-medium'),
                 builder: (context) => AdaptiveScaffold.standardNavigationRail(
+                  trailing: IconButton(
+                    onPressed: () =>
+                        context.pushNamed(SettingsPage.pageConfig.name),
+                    icon: Icon(SettingsPage.pageConfig.icon),
+                  ),
                   selectedLabelTextStyle:
                       TextStyle(color: theme.colorScheme.onBackground),
                   selectedIconTheme: IconThemeData(
@@ -88,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           secondaryBody: SlotLayout(
             config: <Breakpoint, SlotLayoutConfig>{
               Breakpoints.mediumAndUp: SlotLayout.from(
-                key: Key('secondary-body-medium'),
+                key: const Key('secondary-body-medium'),
                 builder: AdaptiveScaffold.emptyBuilder,
               )
             },
@@ -99,5 +109,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _tapOnNavigationDestination(BuildContext context, int index) =>
-      context.go('/home/${HomePage.tabs[index].name}');
+      context.goNamed(
+        HomePage.pageConfig.name,
+        pathParameters: {
+          'tab': HomePage.tabs[index].name,
+        },
+      );
 }
